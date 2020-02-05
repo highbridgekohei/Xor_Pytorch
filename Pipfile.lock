@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b63e7e57be421fcd7c163ece2dab86a1de461729176fe18094aabd0612d888d1"
+            "sha256": "aede08886d1c19da79e8859eed0dbfe7321dc873c2763cba6b9b4c3134366096"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -17,21 +17,6 @@
     },
     "default": {},
     "develop": {
-        "click": {
-            "hashes": [
-                "sha256:2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13",
-                "sha256:5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"
-            ],
-            "version": "==7.0"
-        },
-        "monkeytype": {
-            "hashes": [
-                "sha256:71da688939f08d19904462eef2e568a4f18f6133cc7e3c901ff5034c8ab5a538",
-                "sha256:9f052b42851bc24603836ce3105166c8cc5edabeb25e8fcf256fa25777122618"
-            ],
-            "index": "pypi",
-            "version": "==19.11.2"
-        },
         "mypy": {
             "hashes": [
                 "sha256:0a9a45157e532da06fe56adcfef8a74629566b607fa2c1ac0122d1ff995c748a",
@@ -58,26 +43,6 @@
                 "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"
             ],
             "version": "==0.4.3"
-        },
-        "pathspec": {
-            "hashes": [
-                "sha256:163b0632d4e31cef212976cf57b43d9fd6b0bac6e67c26015d611a647d5e7424",
-                "sha256:562aa70af2e0d434367d9790ad37aed893de47f1693e4201fd1d3dca15d19b96"
-            ],
-            "version": "==0.7.0"
-        },
-        "retype": {
-            "hashes": [
-                "sha256:7d033b115f66e5327dea0a3fd7c9a3dbfa53841575daf27ce2ce409956d901d4",
-                "sha256:846fd135d3ee33c1bad387602a405d808cb99a9a7a47299bfd0e1d25dfb2fedd"
-            ],
-            "version": "==19.9.0"
-        },
-        "stringcase": {
-            "hashes": [
-                "sha256:48a06980661908efe8d9d34eab2b6c13aefa2163b3ced26972902e3bdfd87008"
-            ],
-            "version": "==1.2.0"
         },
         "typed-ast": {
             "hashes": [

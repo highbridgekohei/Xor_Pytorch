@@ -1,35 +1,43 @@
-import torch
-import torch.nn as nn
-import numpy as np
+import torch  # type: ignore
+import torch.nn as nn  # type: ignore
+import torch.optim as optim  # type: ignore
+import numpy as np  # type: ignore
+from typing import Callable, Any, List
 
 
 class Net(nn.Module):
-    def __init__(self, structure, range_value):
+    def __init__(
+        self,
+        structure: List[int],
+        initializer: Callable[..., Any] = lambda w: nn.init.uniform_(w, -1.0, 1.0),
+    ):
         super(Net, self).__init__()
         # an affine operation: y = Wx + b
-        self.fc1 = nn.Linear(structure[0], structure[1])
-        nn.init.uniform_(self.fc1.weight, -range_value, range_value)
-        self.fc2 = nn.Linear(structure[1], structure[2])
-        nn.init.uniform_(self.fc2.weight, -range_value, range_value)
+        self.layer_num: int = len(structure)
+        for i in range(1, self.layer_num):
+            setattr(self, "fc%d" % i, nn.Linear(structure[i - 1], structure[i]))
+            initializer(getattr(self, "fc%d" % i).weight)
 
-    def forward(self, x):
-        x = torch.sigmoid(self.fc1(x))
-        x = torch.sigmoid(self.fc2(x))
+    def forward(self, x: torch.Tensor):
+        for i in range(1, self.layer_num):
+            x = torch.sigmoid(getattr(self, "fc%d" % i)(x))
         return x
 
 
 # ----------- Selecting Optimizer -----------
 if __name__ == "__main__":
-    import torch.optim as optim
-
-    TRAINING_DATA = torch.tensor([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
-    TEACHING_DATA = torch.tensor([[0.0], [1.0], [1.0], [0.0]])
-    EPOCH = 10000
-    error_boundary = 1e-3
-    vr = 0.5
-    learning_rate = 0.5
-    net = Net([2, 2, 1], vr)
+    TRAINING_DATA: torch.Tensor = torch.tensor(
+        [[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]]
+    )
+    TEACHING_DATA: torch.Tensor = torch.tensor([[0.0], [1.0], [1.0], [0.0]])
+    EPOCH: int = 10000
+    error_boundary: float = 1e-3
+    initializer: Callable[..., Any] = lambda weights: nn.init.uniform_(
+        weights, -0.5, 0.5
+    )
+    net = Net([2, 2, 1], initializer)
     criterion = nn.MSELoss()
+    learning_rate: float = 0.5
     optimizer = optim.SGD(net.parameters(), lr=learning_rate)
     #     optimizer = optim.Adam(net.parameters(), lr = 0.0001)
     training_data_indexes = np.arange(len(TRAINING_DATA))
