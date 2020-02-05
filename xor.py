@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+import numpy as np
+
 
 class Net(nn.Module):
     def __init__(self, structure, range_value):
@@ -14,20 +16,22 @@ class Net(nn.Module):
         x = torch.sigmoid(self.fc1(x))
         x = torch.sigmoid(self.fc2(x))
         return x
-    
+
+
 # ----------- Selecting Optimizer -----------
-if __name__=='__main__':
+if __name__ == "__main__":
     import torch.optim as optim
-    TRAINING_DATA=torch.tensor([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
-    TEACHING_DATA=torch.tensor([[0.0], [1.0], [1.0], [0.0]])
-    EPOCH=10000
-    error_boundary=1e-3
-    vr=0.5
-    learning_rate=0.5
-    net=Net([2,2,1],vr)
+
+    TRAINING_DATA = torch.tensor([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
+    TEACHING_DATA = torch.tensor([[0.0], [1.0], [1.0], [0.0]])
+    EPOCH = 10000
+    error_boundary = 1e-3
+    vr = 0.5
+    learning_rate = 0.5
+    net = Net([2, 2, 1], vr)
     criterion = nn.MSELoss()
-    optimizer = optim.SGD(net.parameters(), lr = learning_rate)
-#     optimizer = optim.Adam(net.parameters(), lr = 0.0001)
+    optimizer = optim.SGD(net.parameters(), lr=learning_rate)
+    #     optimizer = optim.Adam(net.parameters(), lr = 0.0001)
     training_data_indexes = np.arange(len(TRAINING_DATA))
     Loss = []
     for epoch in range(EPOCH):
@@ -42,9 +46,9 @@ if __name__=='__main__':
         Loss.append(np.mean(error))
         if Loss[epoch] < error_boundary:
             print(epoch, Loss[epoch])
-            print('----- End Learning -----')
+            print("----- End Learning -----")
             break
-        if epoch % 1000==0:
+        if epoch % 1000 == 0:
             print(epoch, Loss[epoch])
     for training_data in TRAINING_DATA:
         output = net(training_data)
